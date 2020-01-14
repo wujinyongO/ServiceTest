@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bind;
     private Button unbind;
     private Button add;
+    private Button computeAll;
 
     private boolean isBound = false;
     private IMathService mathService;
@@ -89,6 +90,35 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText(msg);
             }
         });
+
+        computeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mathService == null) {
+                    Toast.makeText(MainActivity.this, "未绑定服务", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                long a = (long) (Math.random() * 100);
+                long b = (long) (Math.random() * 100);
+                AllResult result = null;
+
+                try {
+                    result = mathService.ComputeAll(a, b);
+                    mathService.basicTypes(0,0,true,0,0,"");
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+
+                if (result != null) {
+                    String msg = String.valueOf(a) + " + " + String.valueOf(b) + " = " + result.addResult + "\n";
+                    msg += String.valueOf(a) + " - " + String.valueOf(b) + " = " + result.subResult + "\n";
+                    msg += String.valueOf(a) + " * " + String.valueOf(b) + " = " + result.mulResult + "\n";
+                    msg += String.valueOf(a) + " / " + String.valueOf(b) + " = " + result.divResult;
+                    textView.setText(msg);
+                }
+            }
+        });
     }
 
     private void findView() {
@@ -96,5 +126,6 @@ public class MainActivity extends AppCompatActivity {
         bind = findViewById(R.id.bind);
         unbind = findViewById(R.id.unbind);
         add = findViewById(R.id.add);
+        computeAll = findViewById(R.id.computeAll);
     }
 }

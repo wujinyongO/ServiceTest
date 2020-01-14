@@ -1,6 +1,8 @@
 // IMathService.aidl
 package com.example.servicetest;
 
+import com.example.servicetest.AllResult;
+
 // Declare any non-default types here with import statements
 
 interface IMathService {
@@ -12,4 +14,5 @@ interface IMathService {
             double aDouble, String aString);
 
     long add(long a, long b);
+    AllResult ComputeAll(long a, long b);
 }

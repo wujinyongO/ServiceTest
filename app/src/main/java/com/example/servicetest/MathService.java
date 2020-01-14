@@ -24,6 +24,14 @@ public class MathService extends Service {
             Log.i(TAG, "add() " + a + "+" + b + "=" + (a+b));
             return a + b;
         }
+
+        @Override
+        public AllResult ComputeAll(long a, long b) throws RemoteException {
+            AllResult allResult;
+            double divResult = (double) a / b;
+            allResult = new AllResult(a+b, a-b, a*b, divResult);
+            return allResult;
+        }
     };
 
     @Override

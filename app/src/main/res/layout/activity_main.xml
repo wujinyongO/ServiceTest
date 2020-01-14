@@ -39,5 +39,11 @@
             android:layout_height="wrap_content"
             android:text="add" />
 
+        <Button
+            android:id="@+id/computeAll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="computeAll" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
