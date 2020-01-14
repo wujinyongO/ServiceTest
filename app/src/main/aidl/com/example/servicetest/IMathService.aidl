@@ -15,5 +15,8 @@ interface IMathService {
             double aDouble, String aString);
 
     long add(long a, long b);
-    AllResult ComputeAll(long a, long b, ComputeListener listener);
+
+    AllResult ComputeAll(long a, long b);
+
+    void setComputeListener(ComputeListener listener);
 }

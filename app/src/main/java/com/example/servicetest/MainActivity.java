@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
@@ -30,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             mathService = IMathService.Stub.asInterface(iBinder);
+            try {
+                mathService.setComputeListener(computeListener);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -107,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 AllResult result = null;
 
                 try {
-                    result = mathService.ComputeAll(a, b, computeListener);
+                    result = mathService.ComputeAll(a, b);
                     mathService.basicTypes(0,0,true,0,0,"");
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -135,9 +142,15 @@ public class MainActivity extends AppCompatActivity {
     private class MyComputeListener extends ComputeListener.Stub {
 
         @Override
-        public void onFinishCompute(long a, long b) throws RemoteException {
+        public void OnFinishCompute(long a, long b) throws RemoteException {
             Toast.makeText(MainActivity.this, "onFinishCompute: "
                     +"a="+a+" b="+b, Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void OnHashmapCallback(Map map) throws RemoteException {
+            Toast.makeText(MainActivity.this, "OnHashmapCallback: "
+                    +"a="+map.get("a")+" b="+map.get("b"), Toast.LENGTH_SHORT).show();
         }
     }
 }

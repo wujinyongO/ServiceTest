@@ -5,5 +5,7 @@ package com.example.servicetest;
 
 interface ComputeListener {
 
-    void onFinishCompute(long a, long b);
+    void OnFinishCompute(long a, long b);
+
+    void OnHashmapCallback(inout Map map);
 }
