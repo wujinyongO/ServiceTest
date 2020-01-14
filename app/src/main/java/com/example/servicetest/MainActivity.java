@@ -22,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private Button add;
     private Button computeAll;
 
+    private MyComputeListener computeListener;
+
     private boolean isBound = false;
     private IMathService mathService;
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findView();
+        computeListener = new MyComputeListener();
 
         bind.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 AllResult result = null;
 
                 try {
-                    result = mathService.ComputeAll(a, b);
+                    result = mathService.ComputeAll(a, b, computeListener);
                     mathService.basicTypes(0,0,true,0,0,"");
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -127,5 +130,14 @@ public class MainActivity extends AppCompatActivity {
         unbind = findViewById(R.id.unbind);
         add = findViewById(R.id.add);
         computeAll = findViewById(R.id.computeAll);
+    }
+
+    private class MyComputeListener extends ComputeListener.Stub {
+
+        @Override
+        public void onFinishCompute(long a, long b) throws RemoteException {
+            Toast.makeText(MainActivity.this, "onFinishCompute: "
+                    +"a="+a+" b="+b, Toast.LENGTH_SHORT).show();
+        }
     }
 }

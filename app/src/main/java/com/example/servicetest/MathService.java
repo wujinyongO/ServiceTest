@@ -26,10 +26,15 @@ public class MathService extends Service {
         }
 
         @Override
-        public AllResult ComputeAll(long a, long b) throws RemoteException {
+        public AllResult ComputeAll(long a, long b, ComputeListener listener) throws RemoteException {
             AllResult allResult;
             double divResult = (double) a / b;
             allResult = new AllResult(a+b, a-b, a*b, divResult);
+
+            if (listener != null) {
+                listener.onFinishCompute(a+10, b+10);
+            }
+            
             return allResult;
         }
     };
