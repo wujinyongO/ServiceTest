@@ -7,12 +7,16 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MathService extends Service {
     private static final String TAG = "MathService";
 
     private ComputeListener mComputeListener;
+
+    private List<Person> mPersonList;
 
     /*
     1. 建立 IMathService.Stub的实例mBinder并实现AIDL文件定义的远程服务接口
@@ -51,11 +55,21 @@ public class MathService extends Service {
         public void setComputeListener(ComputeListener listener) throws RemoteException {
             mComputeListener = listener;
         }
+
+        @Override
+        public List<Person> addPersion(Person person) throws RemoteException {
+            if (mPersonList == null) {
+                mPersonList = new ArrayList<>();
+            }
+            mPersonList.add(person);
+            return mPersonList;
+        }
     };
 
     @Override
     public IBinder onBind(Intent intent) {
         Toast.makeText(MathService.this, TAG + " onBind()", Toast.LENGTH_SHORT).show();
+        mPersonList = new ArrayList<>();
         return mBinder;
     }
 

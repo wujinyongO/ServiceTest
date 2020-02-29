@@ -14,15 +14,18 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView textView;
+    private TextView mTextView;
     private Button bind;
     private Button unbind;
     private Button add;
     private Button computeAll;
+    private Button mAddPerson;
 
     private MyComputeListener computeListener;
 
@@ -129,14 +132,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mAddPerson.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mathService == null) {
+                    Toast.makeText(MainActivity.this, "未绑定服务", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                try {
+                    Person person = new Person(21,"Tom");
+                    List<Person> list = mathService.addPersion(person);
+                    mTextView.setText(list.toString());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void findView() {
         textView = findViewById(R.id.textView);
+        mTextView = findViewById(R.id.textView2);
         bind = findViewById(R.id.bind);
         unbind = findViewById(R.id.unbind);
         add = findViewById(R.id.add);
         computeAll = findViewById(R.id.computeAll);
+        mAddPerson = findViewById(R.id.addperson);
     }
 
     private class MyComputeListener extends ComputeListener.Stub {

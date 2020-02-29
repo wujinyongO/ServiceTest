@@ -3,6 +3,7 @@ package com.example.servicetest;
 
 import com.example.servicetest.AllResult;
 import com.example.servicetest.ComputeListener;
+import com.example.servicetest.Person;
 
 // Declare any non-default types here with import statements
 
@@ -19,4 +20,6 @@ interface IMathService {
     AllResult ComputeAll(long a, long b);
 
     void setComputeListener(ComputeListener listener);
+
+    List<Person> addPersion(in Person person);
 }
